@@ -129,12 +129,14 @@ button {
     top: calc(100% + 5px);
     left: 0;
 
-    min-width: 210px;
+    width: 220px;
+    min-width: 220px;
 
-    padding: 10px 0;
+    padding: 8px 0;
 
     background-color: #ffffff;
     border: 1px solid #e5e5e5;
+    border-radius: 10px;
 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 
@@ -156,10 +158,14 @@ button {
     transform: translateY(0);
 }
 
+.navsubmenu li + li a {
+    margin-top: 4px;
+}
+
 .navsubmenu a {
     display: block;
 
-    padding: 10px 18px;
+    padding: 12px 18px;
 
     font-size: 0.9rem;
 }
