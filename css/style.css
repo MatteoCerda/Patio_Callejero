@@ -1,0 +1,388 @@
+/* ========================================
+   RESET
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+
+    background-color: #ffffff;
+    color: #222222;
+
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font: inherit;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.header {
+    width: 100%;
+
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.headercontainer {
+    width: min(1200px, 92%);
+    min-height: 80px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 40px;
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* ========================================
+   NAVEGACIÓN
+======================================== */
+
+.navlist {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.navitem {
+    position: relative;
+}
+
+.navitem > a,
+.navlink {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 10px 0;
+
+    background: none;
+    border: none;
+
+    color: #222222;
+
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.navitem > a:hover,
+.navlink:hover {
+    color: #777777;
+}
+
+
+/* ========================================
+   SUBMENÚS
+======================================== */
+
+.navsubmenu {
+    position: absolute;
+
+    top: calc(100% + 5px);
+    left: 0;
+
+    min-width: 210px;
+
+    padding: 10px 0;
+
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-8px);
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease,
+        transform 0.2s ease;
+}
+
+.navitem--dropdown:hover .navsubmenu,
+.navitem--dropdown.is-open .navsubmenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.navsubmenu a {
+    display: block;
+
+    padding: 10px 18px;
+
+    font-size: 0.9rem;
+}
+
+.navsubmenu a:hover {
+    background-color: #f5f5f5;
+}
+
+.navarrow {
+    font-size: 0.8rem;
+}
+
+
+/* ========================================
+   BOTÓN MENÚ MÓVIL
+======================================== */
+
+.navtoggle {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 8px;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.navtoggle span {
+    display: block;
+
+    width: 100%;
+    height: 2px;
+
+    margin: 5px 0;
+
+    background-color: #222222;
+}
+
+
+/* ========================================
+   CONTENIDO
+======================================== */
+
+#app {
+    width: min(1200px, 92%);
+
+    margin: 0 auto;
+
+    flex: 1;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.footer {
+    margin-top: auto;
+
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.footercontainer {
+    width: min(1200px, 92%);
+
+    margin: 0 auto;
+    padding: 60px 0;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+
+    gap: 60px;
+}
+
+.footerlogo {
+    display: inline-block;
+
+    margin-bottom: 15px;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.footerdescription {
+    max-width: 350px;
+
+    color: #cccccc;
+}
+
+.footertitle {
+    margin-bottom: 18px;
+
+    font-size: 1rem;
+}
+
+.footerlinks,
+.footercontact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footerlinks a,
+.footercontact a {
+    color: #cccccc;
+
+    transition: color 0.2s ease;
+}
+
+.footerlinks a:hover,
+.footercontact a:hover {
+    color: #ffffff;
+}
+
+
+/* ========================================
+   FOOTER BOTTOM
+======================================== */
+
+.footerbottom {
+    padding: 20px 4%;
+
+    border-top: 1px solid #444444;
+
+    text-align: center;
+
+    color: #aaaaaa;
+    font-size: 0.85rem;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+    .headercontainer {
+        min-height: 70px;
+    }
+
+    .navtoggle {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+
+        position: absolute;
+
+        top: 70px;
+        left: 0;
+
+        width: 100%;
+
+        background-color: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .nav.is-open {
+        display: block;
+    }
+
+    .navlist {
+        width: 92%;
+
+        margin: 0 auto;
+        padding: 20px 0;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+    }
+
+    .navitem > a,
+    .navlink {
+        width: 100%;
+        padding: 14px 0;
+    }
+
+    .navsubmenu {
+        position: static;
+
+        display: none;
+
+        width: 100%;
+
+        border: none;
+        box-shadow: none;
+
+        padding: 0;
+
+        opacity: 1;
+        visibility: visible;
+
+        transform: none;
+    }
+
+    .navitem--dropdown.is-open .navsubmenu {
+        display: block;
+    }
+
+    .navsubmenu a {
+        padding: 10px 20px;
+    }
+
+    .footercontainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .footercontainer {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+}
