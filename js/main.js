@@ -79,15 +79,37 @@ document.addEventListener("click", (event) => {
 // MENÚS DESPLEGABLES
 // ========================================
 const dropdownButtons = document.querySelectorAll(".navdropdown-button");
+const dropdownItems = document.querySelectorAll(".navitem--dropdown");
+const closeAllDropdowns = (except) => {
+    dropdownItems.forEach((dropdown) => {
+        if (dropdown === except) {
+            return;
+        }
+        dropdown.classList.remove("is-open");
+        const button = dropdown.querySelector(".navdropdown-button");
+        if (button) {
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+};
 dropdownButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+        event.stopPropagation();
         const dropdown = button.closest(".navitem--dropdown");
         if (!dropdown) {
             return;
         }
-        const isOpen = dropdown.classList.toggle("is-open");
-        button.setAttribute("aria-expanded", String(isOpen));
+        const willOpen = !dropdown.classList.contains("is-open");
+        closeAllDropdowns(dropdown);
+        dropdown.classList.toggle("is-open", willOpen);
+        button.setAttribute("aria-expanded", String(willOpen));
     });
+});
+document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.closest(".navitem--dropdown")) {
+        closeAllDropdowns();
+    }
 });
 // ========================================
 // MENÚ MÓVIL

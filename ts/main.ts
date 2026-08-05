@@ -141,10 +141,37 @@ const dropdownButtons =
         ".navdropdown-button"
     );
 
+const dropdownItems =
+    document.querySelectorAll<HTMLElement>(
+        ".navitem--dropdown"
+    );
+
+const closeAllDropdowns = (
+    except?: HTMLElement
+): void => {
+    dropdownItems.forEach((dropdown) => {
+        if (dropdown === except) {
+            return;
+        }
+
+        dropdown.classList.remove("is-open");
+
+        const button = dropdown.querySelector<HTMLButtonElement>(
+            ".navdropdown-button"
+        );
+
+        if (button) {
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+};
+
 
 dropdownButtons.forEach((button) => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+
+        event.stopPropagation();
 
         const dropdown = button.closest<HTMLElement>(
             ".navitem--dropdown"
@@ -154,16 +181,26 @@ dropdownButtons.forEach((button) => {
             return;
         }
 
-        const isOpen =
-            dropdown.classList.toggle("is-open");
+        const willOpen = !dropdown.classList.contains("is-open");
+
+        closeAllDropdowns(dropdown);
+
+        dropdown.classList.toggle("is-open", willOpen);
 
         button.setAttribute(
             "aria-expanded",
-            String(isOpen)
+            String(willOpen)
         );
-
     });
+});
 
+
+document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest(".navitem--dropdown")) {
+        closeAllDropdowns();
+    }
 });
 
 
