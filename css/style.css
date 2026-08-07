@@ -101,15 +101,14 @@ button {
 
 .header {
     width: 100%;
-
     background-color: var(--nav-background);
     border-bottom: 1px solid var(--border);
-
     position: sticky;
     top: 0;
     z-index: 1000;
-    
     overflow: visible;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .headercontainer {
@@ -149,6 +148,12 @@ button {
     object-fit: contain;
 }
 
+.logo-link {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+}
+
 @media (max-width: 768px) {
     .logo {
         font-size: 0.75rem;
@@ -175,7 +180,6 @@ button {
 .navitem > a,
 .navlink {
     display: flex;
-    align-items: center;
     gap: 6px;
 
     padding: 10px 0;
@@ -210,31 +214,21 @@ button {
 .navsubmenu {
     position: fixed;
 
-    top: 80px;
-    left: 0;
-
-    width: 100vw;
+    top: 100px;
+    left: var( --submenu-left, max(4%, calc((100vw - 1200px) / 2)));
+    width: var( --submenu-width, min(1200px, 92%));
 
     padding: 0;
-
     background-color: var(--surface);
     border: none;
     border-top: 4px solid var(--accent);
-    border-radius: 0;
-
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 
-    transform: translateY(-20px);
-
-    transition:
-        opacity 0.2s ease,
-        visibility 0.2s ease,
-        transform 0.2s ease;
-    
+    transition: opacity 0.2s ease, visibility 0.2s ease;
     z-index: 999;
 }
 
@@ -242,16 +236,13 @@ button {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
 }
 
 .navitem--dropdown.is-open .navsubmenu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
 }
-
 
 .navsubmenu li + li a {
     margin-top: 0;
@@ -261,20 +252,20 @@ button {
     display: block;
 
     padding: 16px;
-    
-    margin: 0 auto;
-    max-width: min(1200px, 92%);
 
+    margin: 0;
+    max-width: none;
+    
     font-size: 0.95rem;
     color: var(--text);
-    border-left: 3px solid transparent;
+    border: 3px solid transparent;
     transition: all 0.2s ease;
 }
 
 .navsubmenu a:hover {
     background-color: #f9f7f3;
     color: var(--accent);
-    border-left-color: var(--accent);
+    border-color: var(--accent);
     padding-left: 20px;
 }
 
@@ -343,7 +334,7 @@ button {
 }
 
 .content-article {
-    max-width: 800px;
+    max-width: 1200px;
 }
 
 .content-article p {

@@ -159,6 +159,19 @@ document.addEventListener("click", (event) => {
 // ========================================
 const navToggle = document.querySelector(".navtoggle");
 const nav = document.querySelector(".nav");
+const updateSubmenuBounds = () => {
+    if (!nav || !isDesktop()) {
+        return;
+    }
+    const navBounds = nav.getBoundingClientRect();
+    dropdownItems.forEach((dropdown) => {
+        const submenu = dropdown.querySelector(".navsubmenu");
+        submenu?.style.setProperty("--submenu-left", `${navBounds.left}px`);
+        submenu?.style.setProperty("--submenu-width", `${navBounds.width}px`);
+    });
+};
+updateSubmenuBounds();
+window.addEventListener("resize", updateSubmenuBounds);
 navToggle?.addEventListener("click", () => {
     if (!nav) {
         return;

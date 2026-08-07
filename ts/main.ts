@@ -266,6 +266,33 @@ const navToggle =
 const nav =
     document.querySelector<HTMLElement>(".nav");
 
+const updateSubmenuBounds = (): void => {
+    if (!nav || !isDesktop()) {
+        return;
+    }
+
+    const navBounds = nav.getBoundingClientRect();
+
+    dropdownItems.forEach((dropdown) => {
+        const submenu = dropdown.querySelector<HTMLElement>(
+            ".navsubmenu"
+        );
+
+        submenu?.style.setProperty(
+            "--submenu-left",
+            `${navBounds.left}px`
+        );
+
+        submenu?.style.setProperty(
+            "--submenu-width",
+            `${navBounds.width}px`
+        );
+    });
+};
+
+updateSubmenuBounds();
+window.addEventListener("resize", updateSubmenuBounds);
+
 
 navToggle?.addEventListener("click", () => {
 
