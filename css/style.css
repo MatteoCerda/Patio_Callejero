@@ -12,14 +12,26 @@ html {
     scroll-behavior: smooth;
 }
 
+:root {
+    --background: #F8F5F0;
+    --surface: #FFFFFF;
+    --text: #42362F;
+    --accent: #FF5F0E;
+    --detail: #BECE65;
+    --nav-background: #FFFFFF;
+    --footer-background: #42362F;
+    --footer-text: #FFFFFF;
+    --border: #e5e5e5;
+}
+
 body {
     min-height: 100vh;
 
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.5;
 
-    background-color: #ffffff;
-    color: #222222;
+    background-color: var(--background);
+    color: var(--text);
 
     display: flex;
     flex-direction: column;
@@ -36,6 +48,50 @@ ul {
 
 button {
     font: inherit;
+    cursor: pointer;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 20px;
+    border: none;
+    border-radius: 999px;
+
+    background-color: var(--accent);
+    color: var(--surface);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(255, 95, 14, 0.2);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 20px;
+    border: 1px solid var(--text);
+    border-radius: 999px;
+
+    background-color: var(--surface);
+    color: var(--text);
+}
+
+.card,
+.form-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 
@@ -46,12 +102,14 @@ button {
 .header {
     width: 100%;
 
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e5e5;
+    background-color: var(--nav-background);
+    border-bottom: 1px solid var(--border);
 
     position: sticky;
     top: 0;
     z-index: 1000;
+    
+    overflow: visible;
 }
 
 .headercontainer {
@@ -59,6 +117,7 @@ button {
     min-height: 80px;
 
     margin: 0 auto;
+    padding: 0;
 
     display: flex;
     align-items: center;
@@ -73,10 +132,29 @@ button {
 ======================================== */
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
     white-space: nowrap;
+    flex-shrink: 1;
+    
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 0.75rem;
+        gap: 4px;
+        max-width: 120px;
+    }
 }
 
 
@@ -105,7 +183,7 @@ button {
     background: none;
     border: none;
 
-    color: #222222;
+    color: var(--text);
 
     font-size: 0.95rem;
     cursor: pointer;
@@ -115,67 +193,98 @@ button {
 
 .navitem > a:hover,
 .navlink:hover {
-    color: #777777;
+    color: var(--accent);
+}
+
+.navitem > a.active,
+.navlink.active,
+.navitem > a[aria-current="page"] {
+    color: var(--accent);
+    font-weight: 700;
 }
 
 
 /* ========================================
    SUBMENÚS
 ======================================== */
-
 .navsubmenu {
-    position: absolute;
+    position: fixed;
 
-    top: calc(100% + 5px);
+    top: 80px;
     left: 0;
 
-    width: 220px;
-    min-width: 220px;
+    width: 100vw;
 
-    padding: 8px 0;
+    padding: 0;
 
-    background-color: #ffffff;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
+    background-color: var(--surface);
+    border: none;
+    border-top: 4px solid var(--accent);
+    border-radius: 0;
 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 
-    transform: translateY(-8px);
+    transform: translateY(-20px);
 
     transition:
         opacity 0.2s ease,
         visibility 0.2s ease,
         transform 0.2s ease;
+    
+    z-index: 999;
 }
 
-.navitem--dropdown:hover .navsubmenu,
-.navitem--dropdown.is-open .navsubmenu {
+.navitem--dropdown:hover .navsubmenu {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
 }
 
+.navitem--dropdown.is-open .navsubmenu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+
 .navsubmenu li + li a {
-    margin-top: 4px;
+    margin-top: 0;
 }
 
 .navsubmenu a {
     display: block;
 
-    padding: 12px 18px;
+    padding: 16px;
+    
+    margin: 0 auto;
+    max-width: min(1200px, 92%);
 
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--text);
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .navsubmenu a:hover {
-    background-color: #f5f5f5;
+    background-color: #f9f7f3;
+    color: var(--accent);
+    border-left-color: var(--accent);
+    padding-left: 20px;
 }
 
 .navarrow {
-    font-size: 0.8rem;
+    display: inline-block;
+    font-size: 0.7rem;
+    line-height: 1;
+    margin-bottom: 2px;
+    vertical-align: middle;
+    transform: translateY(-1px);
 }
 
 
@@ -205,7 +314,7 @@ button {
 
     margin: 5px 0;
 
-    background-color: #222222;
+    background-color: var(--footer-background);
 }
 
 
@@ -221,6 +330,34 @@ button {
     flex: 1;
 }
 
+.page-content {
+    padding: 60px 0;
+}
+
+.page-content > h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.content-article {
+    max-width: 800px;
+}
+
+.content-article p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: var(--text);
+    text-align: justify;
+}
+
+.content-article p:last-child {
+    margin-bottom: 0;
+}
+
 
 /* ========================================
    FOOTER
@@ -229,8 +366,8 @@ button {
 .footer {
     margin-top: auto;
 
-    background-color: #222222;
-    color: #ffffff;
+    background-color: var(--footer-background);
+    color: var(--footer-text);
 }
 
 .footercontainer {
@@ -257,7 +394,7 @@ button {
 .footerdescription {
     max-width: 350px;
 
-    color: #cccccc;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .footertitle {
@@ -275,14 +412,14 @@ button {
 
 .footerlinks a,
 .footercontact a {
-    color: #cccccc;
+    color: var(--footer-text);
 
     transition: color 0.2s ease;
 }
 
 .footerlinks a:hover,
 .footercontact a:hover {
-    color: #ffffff;
+    color: var(--detail);
 }
 
 
@@ -293,11 +430,11 @@ button {
 .footerbottom {
     padding: 20px 4%;
 
-    border-top: 1px solid #444444;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 
     text-align: center;
 
-    color: #aaaaaa;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 0.85rem;
 }
 
@@ -326,8 +463,8 @@ button {
 
         width: 100%;
 
-        background-color: #ffffff;
-        border-bottom: 1px solid #e5e5e5;
+        background-color: var(--surface);
+        border-bottom: 1px solid var(--border);
     }
 
     .nav.is-open {
@@ -360,12 +497,16 @@ button {
         width: 100%;
 
         border: none;
+        border-top: 1px solid var(--border);
         box-shadow: none;
+        border-radius: 0;
 
         padding: 0;
+        top: auto;
 
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
 
         transform: none;
     }
@@ -375,7 +516,29 @@ button {
     }
 
     .navsubmenu a {
-        padding: 10px 20px;
+        padding: 12px 20px;
+        border-left: none;
+        color: var(--text);
+        max-width: none;
+        margin: 0;
+    }
+
+    .navsubmenu a:hover {
+        background-color: transparent;
+        color: var(--accent);
+        padding-left: 20px;
+        border-left-color: transparent;
+    }
+
+    .page-content > h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
+    .content-article p {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 18px;
     }
 
     .footercontainer {
@@ -385,6 +548,18 @@ button {
 
 
 @media (max-width: 600px) {
+
+    .page-content > h1 {
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+    }
+
+    .content-article p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        text-align: left;
+    }
 
     .footercontainer {
         grid-template-columns: 1fr;

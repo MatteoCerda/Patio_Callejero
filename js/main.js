@@ -28,6 +28,10 @@ const pages = {
 // CARGAR PÁGINA
 // ========================================
 async function loadPage(page) {
+    const app = document.querySelector("#app");
+    if (!app) {
+        throw new Error("No se encontró el contenedor #app");
+    }
     const pagePath = pages[page];
     if (!pagePath) {
         console.error(`Página no encontrada: ${page}`);
@@ -92,6 +96,36 @@ const closeAllDropdowns = (except) => {
         }
     });
 };
+const isDesktop = () => {
+    return window.innerWidth > 900;
+};
+let dropdownTimeout = null;
+// Agregar event listeners para hover en desktop
+dropdownItems.forEach((dropdown) => {
+    const submenu = dropdown.querySelector(".navsubmenu");
+    dropdown.addEventListener("mouseenter", () => {
+        if (!isDesktop() || dropdownTimeout) {
+            return;
+        }
+        if (dropdownTimeout) {
+            clearTimeout(dropdownTimeout);
+            dropdownTimeout = null;
+        }
+        dropdown.classList.add("is-open");
+    });
+    dropdown.addEventListener("mouseleave", () => {
+        if (!isDesktop()) {
+            return;
+        }
+        if (dropdownTimeout) {
+            clearTimeout(dropdownTimeout);
+        }
+        dropdownTimeout = setTimeout(() => {
+            dropdown.classList.remove("is-open");
+            dropdownTimeout = null;
+        }, 200);
+    });
+});
 dropdownButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -99,6 +133,11 @@ dropdownButtons.forEach((button) => {
         if (!dropdown) {
             return;
         }
+        // En desktop, no hacer nada (el hover controla el dropdown)
+        if (isDesktop()) {
+            return;
+        }
+        // En mobile, alternar el estado
         const willOpen = !dropdown.classList.contains("is-open");
         closeAllDropdowns(dropdown);
         dropdown.classList.toggle("is-open", willOpen);
@@ -107,7 +146,11 @@ dropdownButtons.forEach((button) => {
 });
 document.addEventListener("click", (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.closest(".navitem--dropdown")) {
+    // Solo cerrar en mobile
+    if (isDesktop()) {
+        return;
+    }
+    if (!target.closest(".navitem--dropdown")) {
         closeAllDropdowns();
     }
 });

@@ -166,6 +166,46 @@ const closeAllDropdowns = (
     });
 };
 
+const isDesktop = (): boolean => {
+    return window.innerWidth > 900;
+};
+
+let dropdownTimeout: ReturnType<typeof setTimeout> | null = null;
+
+// Agregar event listeners para hover en desktop
+dropdownItems.forEach((dropdown) => {
+    const submenu = dropdown.querySelector<HTMLElement>(
+        ".navsubmenu"
+    );
+
+    dropdown.addEventListener("mouseenter", () => {
+        if (!isDesktop() || dropdownTimeout) {
+            return;
+        }
+
+        if (dropdownTimeout) {
+            clearTimeout(dropdownTimeout);
+            dropdownTimeout = null;
+        }
+
+        dropdown.classList.add("is-open");
+    });
+
+    dropdown.addEventListener("mouseleave", () => {
+        if (!isDesktop()) {
+            return;
+        }
+
+        if (dropdownTimeout) {
+            clearTimeout(dropdownTimeout);
+        }
+
+        dropdownTimeout = setTimeout(() => {
+            dropdown.classList.remove("is-open");
+            dropdownTimeout = null;
+        }, 200);
+    });
+});
 
 dropdownButtons.forEach((button) => {
 
@@ -181,6 +221,12 @@ dropdownButtons.forEach((button) => {
             return;
         }
 
+        // En desktop, no hacer nada (el hover controla el dropdown)
+        if (isDesktop()) {
+            return;
+        }
+
+        // En mobile, alternar el estado
         const willOpen = !dropdown.classList.contains("is-open");
 
         closeAllDropdowns(dropdown);
@@ -194,9 +240,13 @@ dropdownButtons.forEach((button) => {
     });
 });
 
-
 document.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
+
+    // Solo cerrar en mobile
+    if (isDesktop()) {
+        return;
+    }
 
     if (!target.closest(".navitem--dropdown")) {
         closeAllDropdowns();
